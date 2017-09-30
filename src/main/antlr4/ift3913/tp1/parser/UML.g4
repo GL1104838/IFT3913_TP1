@@ -1,0 +1,20 @@
+grammar UML;
+
+WS: [ \n\t\r]+ -> skip;
+ID: [A-Za-z0-9][A-Za-z0-9_]*;
+model: 'MODEL' ID declaration*;
+declaration: (klass | association | generalization | aggregation) ';';
+klass: 'CLASS' ID 'ATTRIBUTES' attributeList 'OPERATIONS' operationList;
+attributeList: (dataItem (',' dataItem)*)?;
+dataItem: ID ':' type;
+operationList: (operation (',' operation)*)?;
+operation: (ID '(' (dataItem (',' dataItem)*)? ')' ':' type);
+type: ID;
+association: 'RELATION' ID 'ROLES' twoRoles;
+twoRoles: role ',' role;
+role: 'CLASS' ID multiplicity;
+multiplicity: 'ONE' | 'MANY' | 'ONE_OR_MANY' | 'OPTIONALLY_ONE' | 'UNDEFINED';
+aggregation: 'AGGREGATION' 'CONTAINER' role 'PARTS' roles;
+roles: role (',' role)*;
+generalization: 'GENERALIZATION' ID 'SUBCLASSES' subclassNames;
+subclassNames: ID (',' ID)*;
