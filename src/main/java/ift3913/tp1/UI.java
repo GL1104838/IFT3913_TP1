@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,7 +29,6 @@ import ift3913.tp1.parser.ast.Klass;
 import ift3913.tp1.parser.ast.Model;
 
 public class UI {
-
     private JList<String> jListClasses;
     private JList<String> jListAttributes;
     private JList<String> jListMethods;
@@ -138,6 +138,7 @@ public class UI {
         jListClasses.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (m != null) {
+                	jTextAreaDetails.setText("");
                     String selectedClass = jListClasses.getSelectedValue();
                     fillAttributes(selectedClass);
                     fillMethods(selectedClass);
@@ -244,21 +245,32 @@ public class UI {
                     //If the user chose a file, write the absolute path unto openFileTextField
                     String path = openFileFileChooser.getSelectedFile().getAbsolutePath();
                     textFieldPath.setText(path);
-
+                    m = null;
                     String data = "";
                     try {
+                    	erasePrevious();
                         data = new String(Files.readAllBytes(Paths.get(path)), "UTF-8");
+                        m = ModelParser.parseModel(data);
+                        fillClasses();
                     } catch (Exception ex) {
-                        System.out.println("An error occured when trying to read input file.");
+                    	JOptionPane.showMessageDialog(appFrame, "Error! The input file might be corrupted.");
                     }
-                    m = ModelParser.parseModel(data);
-
-                    fillClasses();
                 }
             }
         });
     }
 
+    private void erasePrevious(){
+    	//Empty the klassArray and jTextAreaDetails
+    	klassArray = new ArrayList<Klass>();
+    	jListClasses.setListData(new String[0]);
+    	jListAttributes.setListData(new String[0]);
+    	jListMethods.setListData(new String[0]);
+    	jListSubclasses.setListData(new String[0]);
+    	jListAssociationsAndAggregations.setListData(new String[0]);
+    	jTextAreaDetails.setText("");
+    }
+    
     private void fillClasses() {
         /*Classes filler*/
         DefaultListModel<String> listModel = new DefaultListModel<String>();
