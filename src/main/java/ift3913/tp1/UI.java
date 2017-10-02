@@ -28,19 +28,20 @@ import ift3913.tp1.parser.ast.Klass;
 import ift3913.tp1.parser.ast.Model;
 
 public class UI {
-	private JList<String> jListClasses;
-	private JList<String> jListAttributes;
-	private JList<String> jListMethods;
-	private JList<String> jListSubclasses;
-	private JList<String> jListAssociationsAndAggregations;
-	private JTextArea jTextAreaDetails;
-	private Model m;
-	private ArrayList<Klass> klassArray = new ArrayList<Klass>();
-	
+
+    private JList<String> jListClasses;
+    private JList<String> jListAttributes;
+    private JList<String> jListMethods;
+    private JList<String> jListSubclasses;
+    private JList<String> jListAssociationsAndAggregations;
+    private JTextArea jTextAreaDetails;
+    private Model m;
+    private ArrayList<Klass> klassArray = new ArrayList<Klass>();
+
     public void buildUI() {
-		/*
+        /*
 		 * Swing initialization
-		 */
+         */
 
         //JFrame Initialization
         JFrame appFrame = new JFrame();
@@ -67,8 +68,7 @@ public class UI {
         textFieldPath.setLocation(25, 60);
         textFieldPath.setVisible(true);
 
-		/*JLabel Initialization*/
-
+        /*JLabel Initialization*/
         JLabel jlabelClasses = new JLabel();
         appPanel.add(jlabelClasses);
         jlabelClasses.setSize(150, 50);
@@ -111,7 +111,7 @@ public class UI {
         jlabelTextAreaDetails.setText("Details");
         jlabelTextAreaDetails.setVisible(true);
 
-		/*JTextArea Initialization*/
+        /*JTextArea Initialization*/
         jTextAreaDetails = new JTextArea();
         appPanel.add(jTextAreaDetails);
         jTextAreaDetails.setEditable(true);
@@ -121,39 +121,38 @@ public class UI {
         jTextAreaDetails.setVisible(true);
         jTextAreaDetails.setEditable(false);
 
-        JScrollPane jTextAreaDetailsScrollPane = new JScrollPane (jTextAreaDetails, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane jTextAreaDetailsScrollPane = new JScrollPane(jTextAreaDetails, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jTextAreaDetailsScrollPane.setSize(355, 110);
         jTextAreaDetailsScrollPane.setLocation(215, 430);
         appPanel.add(jTextAreaDetailsScrollPane);
-        jTextAreaDetailsScrollPane.setVisible (true);
+        jTextAreaDetailsScrollPane.setVisible(true);
 
-		/*JLists Initialization*/
-
+        /*JLists Initialization*/
         //JList Classes
         jListClasses = new JList<String>();
         appPanel.add(jListClasses);
         jListClasses.setSize(140, 400);
         jListClasses.setLocation(25, 140);
         jListClasses.setVisible(true);
-        
-        jListClasses.addMouseListener(new MouseAdapter(){
+
+        jListClasses.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-            	if(m != null){
-	                String selectedClass = jListClasses.getSelectedValue();
-	                fillAttributes(selectedClass);
-	                fillMethods(selectedClass);
-	                fillGeneralization(selectedClass);
-	                fillAssociationAndAggregations(selectedClass);
-            	}
+                if (m != null) {
+                    String selectedClass = jListClasses.getSelectedValue();
+                    fillAttributes(selectedClass);
+                    fillMethods(selectedClass);
+                    fillGeneralization(selectedClass);
+                    fillAssociationAndAggregations(selectedClass);
+                }
             }
         });
 
         //jListClasses ScrollPane
-        JScrollPane jListClassesScrollPane = new JScrollPane (jListClasses, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane jListClassesScrollPane = new JScrollPane(jListClasses, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListClassesScrollPane.setSize(160, 400);
         jListClassesScrollPane.setLocation(25, 140);
         appPanel.add(jListClassesScrollPane);
-        jListClassesScrollPane.setVisible (true);
+        jListClassesScrollPane.setVisible(true);
 
         //JList Attributes
         jListAttributes = new JList<String>();
@@ -163,11 +162,11 @@ public class UI {
         jListAttributes.setVisible(true);
 
         //jListClasses ScrollPane
-        JScrollPane jListAttributesScrollPane = new JScrollPane (jListAttributes, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane jListAttributesScrollPane = new JScrollPane(jListAttributes, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListAttributesScrollPane.setSize(160, 110);
         jListAttributesScrollPane.setLocation(215, 140);
         appPanel.add(jListAttributesScrollPane);
-        jListAttributesScrollPane.setVisible (true);
+        jListAttributesScrollPane.setVisible(true);
 
         //JList Methods
         jListMethods = new JList<String>();
@@ -177,11 +176,11 @@ public class UI {
         jListMethods.setVisible(true);
 
         //jListMethods ScrollPane
-        JScrollPane jListMethodsScrollPane = new JScrollPane (jListMethods, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane jListMethodsScrollPane = new JScrollPane(jListMethods, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListMethodsScrollPane.setSize(160, 110);
         jListMethodsScrollPane.setLocation(410, 140);
         appPanel.add(jListMethodsScrollPane);
-        jListMethodsScrollPane.setVisible (true);
+        jListMethodsScrollPane.setVisible(true);
 
         //JList Subclasses
         jListSubclasses = new JList<String>();
@@ -189,13 +188,13 @@ public class UI {
         jListSubclasses.setSize(160, 80);
         jListSubclasses.setLocation(215, 300);
         jListSubclasses.setVisible(true);
-        
+
         //jListClasses ScrollPane
-        JScrollPane jListSubclassesScrollPane = new JScrollPane (jListSubclasses, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane jListSubclassesScrollPane = new JScrollPane(jListSubclasses, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListSubclassesScrollPane.setSize(160, 80);
         jListSubclassesScrollPane.setLocation(215, 300);
         appPanel.add(jListSubclassesScrollPane);
-        jListSubclassesScrollPane.setVisible (true);
+        jListSubclassesScrollPane.setVisible(true);
 
         //JList Associations/Aggregations
         jListAssociationsAndAggregations = new JList<String>();
@@ -204,22 +203,22 @@ public class UI {
         jListAssociationsAndAggregations.setLocation(410, 300);
         jListAssociationsAndAggregations.setVisible(true);
 
-        jListAssociationsAndAggregations.addMouseListener(new MouseAdapter(){
+        jListAssociationsAndAggregations.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-            	if(m != null && jListAssociationsAndAggregations.getModel().getSize() != 0){
-	                String selection = jListAssociationsAndAggregations.getSelectedValue();
-	                String selectedClass = jListClasses.getSelectedValue();
-	                fillDetailsAggregationsAndAssociations(selectedClass, selection);
-            	}
+                if (m != null && jListAssociationsAndAggregations.getModel().getSize() != 0) {
+                    String selection = jListAssociationsAndAggregations.getSelectedValue();
+                    String selectedClass = jListClasses.getSelectedValue();
+                    fillDetailsAggregationsAndAssociations(selectedClass, selection);
+                }
             }
         });
-        
+
         //jListAssociationsAndAggregations ScrollPane
-        JScrollPane jListAssociationsAndAggregationsScrollPane = new JScrollPane (jListAssociationsAndAggregations, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane jListAssociationsAndAggregationsScrollPane = new JScrollPane(jListAssociationsAndAggregations, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListAssociationsAndAggregationsScrollPane.setSize(160, 80);
         jListAssociationsAndAggregationsScrollPane.setLocation(410, 300);
         appPanel.add(jListAssociationsAndAggregationsScrollPane);
-        jListAssociationsAndAggregationsScrollPane.setVisible (true);
+        jListAssociationsAndAggregationsScrollPane.setVisible(true);
 
         //JButton Initialization
         JButton btnOpenFile = new JButton();
@@ -241,191 +240,181 @@ public class UI {
                 openFileFileChooser.setAcceptAllFileFilterUsed(false);
                 openFileFileChooser.setDialogTitle("Importation d'un fichier uml");
 
-                if(openFileFileChooser.showOpenDialog(appFrame) == JFileChooser.APPROVE_OPTION){
+                if (openFileFileChooser.showOpenDialog(appFrame) == JFileChooser.APPROVE_OPTION) {
                     //If the user chose a file, write the absolute path unto openFileTextField
-                	String path = openFileFileChooser.getSelectedFile().getAbsolutePath();
+                    String path = openFileFileChooser.getSelectedFile().getAbsolutePath();
                     textFieldPath.setText(path);
 
                     String data = "";
-					try {
-						data = new String(Files.readAllBytes(Paths.get(path)), "UTF-8");
-					}
-					catch (Exception ex) {
-						System.out.println("An error occured when trying to read input file.");
-					}
+                    try {
+                        data = new String(Files.readAllBytes(Paths.get(path)), "UTF-8");
+                    } catch (Exception ex) {
+                        System.out.println("An error occured when trying to read input file.");
+                    }
                     m = ModelParser.parseModel(data);
-                    
+
                     fillClasses();
                 }
             }
         });
     }
-    
-    
-    private void fillClasses(){
-    	/*Classes filler*/
+
+    private void fillClasses() {
+        /*Classes filler*/
         DefaultListModel<String> listModel = new DefaultListModel<String>();
-        for(int i=0;i<m.declarations.size();i++){
-        	if(m.declarations.get(i) instanceof Klass){
-        		Klass k = (Klass) m.declarations.get(i);
-        		klassArray.add(k);
-        		listModel.addElement(k.name);
-        	}
+        for (int i = 0; i < m.declarations.size(); i++) {
+            if (m.declarations.get(i) instanceof Klass) {
+                Klass k = (Klass) m.declarations.get(i);
+                klassArray.add(k);
+                listModel.addElement(k.name);
+            }
         }
         this.jListClasses.setModel(listModel);
     }
-    
-    
-    private void fillAttributes(String selectedClass){
-    	//Attributes filler
+
+    private void fillAttributes(String selectedClass) {
+        //Attributes filler
         DefaultListModel<String> listModel = new DefaultListModel<String>();
-        for(int i=0;i<klassArray.size();i++){
-        	Klass k = klassArray.get(i);
-        	if(selectedClass.equals(k.name)){
-        		for(int j=0;j<k.attributes.size();j++){
-        			listModel.addElement(k.attributes.get(j).type + " " + k.attributes.get(j).ident);
-        		}
-        	}
+        for (int i = 0; i < klassArray.size(); i++) {
+            Klass k = klassArray.get(i);
+            if (selectedClass.equals(k.name)) {
+                for (int j = 0; j < k.attributes.size(); j++) {
+                    listModel.addElement(k.attributes.get(j).type + " " + k.attributes.get(j).ident);
+                }
+            }
         }
         this.jListAttributes.setModel(listModel);
     }
-    
-    
-    private void fillMethods(String selectedClass){
-    	//Methods filler
+
+    private void fillMethods(String selectedClass) {
+        //Methods filler
         DefaultListModel<String> listModel = new DefaultListModel<String>();
-        for(int i=0;i<klassArray.size();i++){
-        	Klass k = klassArray.get(i);
-        	if(selectedClass.equals(k.name)){
-        		for(int j=0;j<k.operations.size();j++){
-        			String s = "";
-        			for(int h=0;h<k.operations.get(j).args.size();h++){
-        				if(h == 0){
-        					s = k.operations.get(j).args.get(h).type;
-        				}
-        				else{
-        					s = s + ", " + k.operations.get(j).args.get(h).type;
-        				}
-        			}
-        			listModel.addElement(k.operations.get(j).type + " " + k.operations.get(j).name + "(" + s + ")");
-        		}
-        	}
+        for (int i = 0; i < klassArray.size(); i++) {
+            Klass k = klassArray.get(i);
+            if (selectedClass.equals(k.name)) {
+                for (int j = 0; j < k.operations.size(); j++) {
+                    String s = "";
+                    for (int h = 0; h < k.operations.get(j).args.size(); h++) {
+                        if (h == 0) {
+                            s = k.operations.get(j).args.get(h).type;
+                        } else {
+                            s = s + ", " + k.operations.get(j).args.get(h).type;
+                        }
+                    }
+                    listModel.addElement(k.operations.get(j).type + " " + k.operations.get(j).name + "(" + s + ")");
+                }
+            }
         }
         this.jListMethods.setModel(listModel);
     }
-    
-    
-    private void fillGeneralization(String selectedClass){
-    	//Generalization filler
-    	DefaultListModel<String> listModel = new DefaultListModel<String>();
-        for(int i=0;i<m.declarations.size();i++){
-        	if(m.declarations.get(i) instanceof Generalization){
-        		Generalization g = (Generalization) m.declarations.get(i);
-        		if(selectedClass.equals(g.name)){
-        			for(int j=0;j<g.subclasses.size();j++){
-            			listModel.addElement(g.subclasses.get(j));
-        			}
-        		}
-        	}
+
+    private void fillGeneralization(String selectedClass) {
+        //Generalization filler
+        DefaultListModel<String> listModel = new DefaultListModel<String>();
+        for (int i = 0; i < m.declarations.size(); i++) {
+            if (m.declarations.get(i) instanceof Generalization) {
+                Generalization g = (Generalization) m.declarations.get(i);
+                if (selectedClass.equals(g.name)) {
+                    for (int j = 0; j < g.subclasses.size(); j++) {
+                        listModel.addElement(g.subclasses.get(j));
+                    }
+                }
+            }
         }
         this.jListSubclasses.setModel(listModel);
     }
 
-  
-    private void fillAssociationAndAggregations(String selectedClass){
-    	DefaultListModel<String> listModel = new DefaultListModel<String>();
-        for(int i=0;i<m.declarations.size();i++){
-        	if(m.declarations.get(i) instanceof Association){
-        		//Association filler
-        		Association a = (Association) m.declarations.get(i);
-        		if(selectedClass.equals(a.role_1.name) || selectedClass.equals(a.role_2.name)){
-        			listModel.addElement("(R) " + a.name);
-        		}
-        	}
-        	else if(m.declarations.get(i) instanceof Aggregation){
-        		//Aggregation filler
-        		Aggregation a = (Aggregation) m.declarations.get(i);
-        		if(selectedClass.equals(a.single.name)){
-        			//Then the roles are part
-        			for(int j=0;j<a.roles.size();j++){
-        				listModel.addElement("(A) P_" + a.roles.get(j).name);
-        			}
-        		}
-        		else{
-        			//Then there are none or they are containers
-	        		for(int j=0;j<a.roles.size();j++){
-	        			if(selectedClass.equals(a.roles.get(j).name)){
-	        				listModel.addElement("(A) C_" + a.single.name); 
-	        			}
-	        		}
-        		}
-        	}
+    private void fillAssociationAndAggregations(String selectedClass) {
+        DefaultListModel<String> listModel = new DefaultListModel<String>();
+        for (int i = 0; i < m.declarations.size(); i++) {
+            if (m.declarations.get(i) instanceof Association) {
+                //Association filler
+                Association a = (Association) m.declarations.get(i);
+                if (selectedClass.equals(a.role_1.name) || selectedClass.equals(a.role_2.name)) {
+                    listModel.addElement("(R) " + a.name);
+                }
+            } else if (m.declarations.get(i) instanceof Aggregation) {
+                //Aggregation filler
+                Aggregation a = (Aggregation) m.declarations.get(i);
+                if (selectedClass.equals(a.single.name)) {
+                    //Then the roles are part
+                    for (int j = 0; j < a.roles.size(); j++) {
+                        listModel.addElement("(A) P_" + a.roles.get(j).name);
+                    }
+                } else {
+                    //Then there are none or they are containers
+                    for (int j = 0; j < a.roles.size(); j++) {
+                        if (selectedClass.equals(a.roles.get(j).name)) {
+                            listModel.addElement("(A) C_" + a.single.name);
+                        }
+                    }
+                }
+            }
         }
         this.jListAssociationsAndAggregations.setModel(listModel);
     }
 
-    private void fillDetailsAggregationsAndAssociations(String selectedClass, String selection){
-    	try{
-	    	String detailedString = "";
-	    	switch(selection.charAt(1)){
-	    	case 'A':
-	    		//S'il s'agit d'une aggregation
-	    		for(int i=0;i<m.declarations.size();i++){
-	    			if(m.declarations.get(i) instanceof Aggregation){
-	    				Aggregation a = (Aggregation) m.declarations.get(i);
-	    				switch(selection.charAt(4)){
-	    					case 'C':
-	    						detailedString = aggregationDetails(selectedClass, selection.substring(6), a);
-	    						break;
-	    					case 'P':
-	    						detailedString = aggregationDetails(selection.substring(6), selectedClass, a);
-	    						break;
-	    				}
-	    			}
-	    		}
-	    		break;
-	    	case 'R':
-	    		//S'il s'agit d'une relation
-	    		Association association = new Association();
-	    		for(int i=0;i<m.declarations.size();i++){
-	    			if(m.declarations.get(i) instanceof Association){
-	    				Association a = (Association) m.declarations.get(i);
-	    				if(selection.substring(4).equals(a.name)){
-	    					association = a;
-	    				}
-	    			}
-	    		}
-	    		
-	    		detailedString = detailedString + "RELATION\n   ROLES\n     CLASS " + association.role_1.name + " " + association.role_1.multiplicity
-	    				+ "\n     CLASS " + association.role_2.name + " " + association.role_2.multiplicity;
-	    		break;
-	    	}
-	    	jTextAreaDetails.setText(detailedString);
-    	}
-    	catch(Exception e){
-    		System.out.println("An error occured trying to read the details for Association/Aggregations List.");
-    	}
-    	
+    private void fillDetailsAggregationsAndAssociations(String selectedClass, String selection) {
+        try {
+            String detailedString = "";
+            switch (selection.charAt(1)) {
+                case 'A':
+                    //S'il s'agit d'une aggregation
+                    for (int i = 0; i < m.declarations.size(); i++) {
+                        if (m.declarations.get(i) instanceof Aggregation) {
+                            Aggregation a = (Aggregation) m.declarations.get(i);
+                            switch (selection.charAt(4)) {
+                                case 'C':
+                                    detailedString = aggregationDetails(selectedClass, selection.substring(6), a);
+                                    break;
+                                case 'P':
+                                    detailedString = aggregationDetails(selection.substring(6), selectedClass, a);
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                case 'R':
+                    //S'il s'agit d'une relation
+                    Association association = new Association();
+                    for (int i = 0; i < m.declarations.size(); i++) {
+                        if (m.declarations.get(i) instanceof Association) {
+                            Association a = (Association) m.declarations.get(i);
+                            if (selection.substring(4).equals(a.name)) {
+                                association = a;
+                            }
+                        }
+                    }
+
+                    detailedString = detailedString + "RELATION\n   ROLES\n     CLASS " + association.role_1.name + " " + association.role_1.multiplicity
+                            + "\n     CLASS " + association.role_2.name + " " + association.role_2.multiplicity;
+                    break;
+            }
+            jTextAreaDetails.setText(detailedString);
+        } catch (Exception e) {
+            System.out.println("An error occured trying to read the details for Association/Aggregations List.");
+        }
+
     }
-    
-    private String aggregationDetails(String s1, String s2, Aggregation a){
-    	//Uses the correct aggregation form
-    	boolean roleFound = false;
-    	String detailedString = "";
-    	for(int j=0;j<a.roles.size();j++){
-			if(s1.equals(a.roles.get(j).name)){
-				roleFound = true;
-			}
-		}
-		if(s2.equals(a.single.name) &&
-			roleFound){
-			detailedString = detailedString + "AGGREGATION\n   CONTAINER\n"
-					+ "     CLASS " + a.single.name + " " + a.single.multiplicity 
-					+ "\n   PARTS\n";
-			for(int j=0;j<a.roles.size();j++){
-				detailedString = detailedString + "     CLASS " + a.roles.get(j).name + " " + a.roles.get(j).multiplicity + "\n";
-			}
-		}
-		return detailedString;
+
+    private String aggregationDetails(String s1, String s2, Aggregation a) {
+        //Uses the correct aggregation form
+        boolean roleFound = false;
+        String detailedString = "";
+        for (int j = 0; j < a.roles.size(); j++) {
+            if (s1.equals(a.roles.get(j).name)) {
+                roleFound = true;
+            }
+        }
+        if (s2.equals(a.single.name)
+                && roleFound) {
+            detailedString = detailedString + "AGGREGATION\n   CONTAINER\n"
+                    + "     CLASS " + a.single.name + " " + a.single.multiplicity
+                    + "\n   PARTS\n";
+            for (int j = 0; j < a.roles.size(); j++) {
+                detailedString = detailedString + "     CLASS " + a.roles.get(j).name + " " + a.roles.get(j).multiplicity + "\n";
+            }
+        }
+        return detailedString;
     }
 }

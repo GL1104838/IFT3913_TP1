@@ -19,7 +19,7 @@ public class ModelParser {
         return visitor.visit(parser.model());
     }
 
-    public static List<DataItem> collectDataItems(List<UMLParser.DataItemContext> list) {
+    private static List<DataItem> collectDataItems(List<UMLParser.DataItemContext> list) {
         DataItemVisitor dataItemVisitor = new DataItemVisitor();
         return list.stream()
                 .map(item -> item.accept(dataItemVisitor))
