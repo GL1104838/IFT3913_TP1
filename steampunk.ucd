@@ -1,0 +1,45 @@
+MODEL STEAMPUNK
+
+
+CLASS Goggles
+ATTRIBUTES
+	nb_eyes : Integer,
+	rust : Boolean,
+	cost : Double
+OPERATIONS
+	add_eye() : void,
+	reforge(newMetaltype : Metal) : String
+;
+
+CLASS Hat
+ATTRIBUTES
+	material : String,
+	width : Double,
+	height : Double
+OPERATIONS
+	try() : void
+;
+
+CLASS Clothes
+ATTRIBUTES
+	color : String
+OPERATIONS
+;
+
+CLASS Cosplayer
+ATTRIBUTES
+	name : String
+OPERATIONS
+;	
+
+GENERALIZATION Clothes
+	SUBCLASSES Hat, Goggles
+;
+
+AGGREGATION
+CONTAINER
+	CLASS Cosplayer ONE
+PARTS
+	CLASS Goggles ONE_OR_MANY,
+	CLASS Hat OPTIONALLY_ONE
+;
