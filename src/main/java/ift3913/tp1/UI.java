@@ -1,5 +1,6 @@
 package ift3913.tp1;
 
+import ift3913.tp1.metrics.MetricsBuilder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -138,8 +139,9 @@ public class UI {
         jListClasses.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (m != null) {
-                	jTextAreaDetails.setText("");
+                    jTextAreaDetails.setText("");
                     String selectedClass = jListClasses.getSelectedValue();
+                    MetricsBuilder.computeMetrics(m, selectedClass).print();
                     fillAttributes(selectedClass);
                     fillMethods(selectedClass);
                     fillGeneralization(selectedClass);
@@ -232,7 +234,7 @@ public class UI {
 
             public void actionPerformed(ActionEvent e) {
                 //Initialize JFileChooser and FileNameExtensionFilter
-                JFileChooser openFileFileChooser = new JFileChooser();
+                JFileChooser openFileFileChooser = new JFileChooser(".");
                 FileNameExtensionFilter openFileFileNameExtensionFilter = new FileNameExtensionFilter("UML files only (.ucd)", "ucd");
 
                 //Limits the imported files to uml files only (.ucd)

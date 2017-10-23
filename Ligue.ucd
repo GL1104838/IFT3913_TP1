@@ -14,6 +14,13 @@ nom : String
 OPERATIONS 
 ;
 
+CLASS Human
+ATTRIBUTES
+    alive: boolean
+OPERATIONS
+    is_alive(): boolean
+;
+
 CLASS Joueur
 ATTRIBUTES 
       saison : Integer,
@@ -37,8 +44,44 @@ OPERATIONS
       Utilise_par(eq : Equipe, annee : Integer) : Boolean
 ;
 
+CLASS GrosStade
+ATTRIBUTES
+OPERATIONS
+;
+
+CLASS Recrue
+ATTRIBUTES
+OPERATIONS
+;
+
+CLASS WaterBoy
+ATTRIBUTES
+OPERATIONS
+;
+
+CLASS Veteran
+ATTRIBUTES
+OPERATIONS
+;
+
 GENERALIZATION Participant
 	SUBCLASSES Joueur, Entraineur
+;
+
+GENERALIZATION Human
+        SUBCLASSES Joueur
+;
+
+GENERALIZATION Joueur
+        SUBCLASSES Recrue, Veteran
+;
+
+GENERALIZATION Recrue
+        SUBCLASSES WaterBoy
+;
+
+GENERALIZATION Stade
+        SUBCLASSES GrosStade
 ;
 
 RELATION est_localisee_a 
