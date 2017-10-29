@@ -29,4 +29,16 @@ public class Metrics {
         System.out.println("NOD: " + nod);
     }
     
+    public String toString(){
+    	return "ANA: " + ana 
+    	+ "\nNOM: " + nom 
+    	+ "\nNOA: " + noa 
+    	+ "\nITC: " + itc
+        + "\nETC: " + etc
+        + "\nCAC: " + cac
+        + "\nDIT: " + dit
+        + "\nCLD: " + cld
+        + "\nNOC: " + noc
+        + "\nNOD: " + nod;
+    }
 }
