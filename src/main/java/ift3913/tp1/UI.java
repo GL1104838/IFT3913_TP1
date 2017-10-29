@@ -36,6 +36,7 @@ public class UI {
     private JList<String> jListSubclasses;
     private JList<String> jListAssociationsAndAggregations;
     private JTextArea jTextAreaDetails;
+    private JTextArea jTextAreaMetrics;
     private Model m;
     private ArrayList<Klass> klassArray = new ArrayList<Klass>();
 
@@ -47,7 +48,7 @@ public class UI {
         //JFrame Initialization
         JFrame appFrame = new JFrame();
         appFrame.setTitle("UML Parser");
-        appFrame.setSize(600, 600);
+        appFrame.setSize(790, 600);
         appFrame.setLocationRelativeTo(null);
         appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setResizable(false);
@@ -57,7 +58,7 @@ public class UI {
         JPanel appPanel = new JPanel();
         appFrame.add(appPanel);
         appPanel.setLayout(null);
-        appPanel.setSize(600, 600);
+        appPanel.setSize(765, 600);
         appPanel.setVisible(true);
 
         //JTextField Initialization
@@ -112,6 +113,13 @@ public class UI {
         jlabelTextAreaDetails.setText("Details");
         jlabelTextAreaDetails.setVisible(true);
 
+        JLabel jlabelMetrics = new JLabel();
+        appPanel.add(jlabelMetrics);
+        jlabelMetrics.setSize(150, 50);
+        jlabelMetrics.setLocation(600, 100);
+        jlabelMetrics.setText("Metrics");
+        jlabelMetrics.setVisible(true);
+        
         /*JTextArea Initialization*/
         jTextAreaDetails = new JTextArea();
         appPanel.add(jTextAreaDetails);
@@ -128,6 +136,22 @@ public class UI {
         appPanel.add(jTextAreaDetailsScrollPane);
         jTextAreaDetailsScrollPane.setVisible(true);
 
+        /*JTextArea Metrics*/
+        jTextAreaMetrics = new JTextArea();
+        appPanel.add(jTextAreaMetrics);
+        jTextAreaMetrics.setEditable(true);
+        jTextAreaMetrics.setSize(140, 400);
+        jTextAreaMetrics.setLocation(600, 140);
+        jTextAreaMetrics.setText("");
+        jTextAreaMetrics.setVisible(true);
+        jTextAreaMetrics.setEditable(false);
+
+        JScrollPane jTextAreaMetricsScrollPane = new JScrollPane(jTextAreaMetrics, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jTextAreaMetricsScrollPane.setSize(160, 400);
+        jTextAreaMetricsScrollPane.setLocation(600, 140);
+        appPanel.add(jTextAreaMetricsScrollPane);
+        jTextAreaMetricsScrollPane.setVisible(true);
+        
         /*JLists Initialization*/
         //JList Classes
         jListClasses = new JList<String>();
@@ -140,8 +164,8 @@ public class UI {
             public void mouseClicked(MouseEvent e) {
                 if (m != null) {
                     jTextAreaDetails.setText("");
+                    jTextAreaMetrics.setText("");
                     String selectedClass = jListClasses.getSelectedValue();
-                    MetricsBuilder.computeMetrics(m, selectedClass).print();
                     fillAttributes(selectedClass);
                     fillMethods(selectedClass);
                     fillGeneralization(selectedClass);
@@ -260,6 +284,24 @@ public class UI {
                 }
             }
         });
+        
+        JButton btnCalculateMetrics = new JButton();
+        appPanel.add(btnCalculateMetrics);
+        btnCalculateMetrics.setSize(160, 25);
+        btnCalculateMetrics.setLocation(600, 60);
+        btnCalculateMetrics.setText("Calculate Metrics...");
+        btnCalculateMetrics.setVisible(true);
+        btnCalculateMetrics.addActionListener(new ActionListener() {
+        	
+            public void actionPerformed(ActionEvent e) {
+            	if(jListClasses.isSelectionEmpty()){
+            		JOptionPane.showMessageDialog(appFrame, "Error! Please open a UML file and select a class.");
+            	}
+            	else{
+            		fillMetrics(jListClasses.getSelectedValue());
+            	}
+            }
+        });
     }
 
     private void erasePrevious(){
@@ -271,6 +313,7 @@ public class UI {
     	jListSubclasses.setListData(new String[0]);
     	jListAssociationsAndAggregations.setListData(new String[0]);
     	jTextAreaDetails.setText("");
+    	jTextAreaMetrics.setText("");
     }
     
     private void fillClasses() {
@@ -322,6 +365,10 @@ public class UI {
         this.jListMethods.setModel(listModel);
     }
 
+    private void fillMetrics(String selectedClass){
+    	jTextAreaMetrics.setText(MetricsBuilder.computeMetrics(m, selectedClass).toString());
+    }
+    
     private void fillGeneralization(String selectedClass) {
         //Generalization filler
         DefaultListModel<String> listModel = new DefaultListModel<String>();
