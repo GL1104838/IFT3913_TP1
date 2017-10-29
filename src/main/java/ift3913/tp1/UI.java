@@ -1,10 +1,12 @@
 package ift3913.tp1;
 
+import ift3913.tp1.metrics.Metrics;
 import ift3913.tp1.metrics.MetricsBuilder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -35,8 +37,10 @@ public class UI {
     private JList<String> jListMethods;
     private JList<String> jListSubclasses;
     private JList<String> jListAssociationsAndAggregations;
+    private JList<String> jListMetrics;
     private JTextArea jTextAreaDetails;
-    private JTextArea jTextAreaMetrics;
+    private JButton btnCalculateMetrics;
+    private JButton btnCSVExport;
     private Model m;
     private ArrayList<Klass> klassArray = new ArrayList<Klass>();
 
@@ -48,7 +52,7 @@ public class UI {
         //JFrame Initialization
         JFrame appFrame = new JFrame();
         appFrame.setTitle("UML Parser");
-        appFrame.setSize(790, 600);
+        appFrame.setSize(790, 660);
         appFrame.setLocationRelativeTo(null);
         appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setResizable(false);
@@ -135,22 +139,6 @@ public class UI {
         jTextAreaDetailsScrollPane.setLocation(215, 430);
         appPanel.add(jTextAreaDetailsScrollPane);
         jTextAreaDetailsScrollPane.setVisible(true);
-
-        /*JTextArea Metrics*/
-        jTextAreaMetrics = new JTextArea();
-        appPanel.add(jTextAreaMetrics);
-        jTextAreaMetrics.setEditable(true);
-        jTextAreaMetrics.setSize(140, 400);
-        jTextAreaMetrics.setLocation(600, 140);
-        jTextAreaMetrics.setText("");
-        jTextAreaMetrics.setVisible(true);
-        jTextAreaMetrics.setEditable(false);
-
-        JScrollPane jTextAreaMetricsScrollPane = new JScrollPane(jTextAreaMetrics, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jTextAreaMetricsScrollPane.setSize(160, 400);
-        jTextAreaMetricsScrollPane.setLocation(600, 140);
-        appPanel.add(jTextAreaMetricsScrollPane);
-        jTextAreaMetricsScrollPane.setVisible(true);
         
         /*JLists Initialization*/
         //JList Classes
@@ -164,7 +152,7 @@ public class UI {
             public void mouseClicked(MouseEvent e) {
                 if (m != null) {
                     jTextAreaDetails.setText("");
-                    jTextAreaMetrics.setText("");
+                    jListMetrics.setListData(new String[0]);
                     String selectedClass = jListClasses.getSelectedValue();
                     fillAttributes(selectedClass);
                     fillMethods(selectedClass);
@@ -173,7 +161,7 @@ public class UI {
                 }
             }
         });
-
+        
         //jListClasses ScrollPane
         JScrollPane jListClassesScrollPane = new JScrollPane(jListClasses, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListClassesScrollPane.setSize(160, 400);
@@ -181,6 +169,59 @@ public class UI {
         appPanel.add(jListClassesScrollPane);
         jListClassesScrollPane.setVisible(true);
 
+        /*JList Metrics*/
+        jListMetrics = new JList<String>();
+        appPanel.add(jListMetrics);
+        jListMetrics.setSize(140, 400);
+        jListMetrics.setLocation(600, 140);
+        jListMetrics.setVisible(true);
+
+        JScrollPane jTextAreaMetricsScrollPane = new JScrollPane(jListMetrics, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jTextAreaMetricsScrollPane.setSize(160, 400);
+        jTextAreaMetricsScrollPane.setLocation(600, 140);
+        appPanel.add(jTextAreaMetricsScrollPane);
+        jTextAreaMetricsScrollPane.setVisible(true);
+        
+        jListMetrics.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+            	//Show the definition of the chosen metric
+                if (m != null) {
+                	switch(jListMetrics.getSelectedIndex()){
+                		case 0:
+                			JOptionPane.showMessageDialog(appFrame, "ANA: Nombre moyen d’arguments des méthodes locales pour la classe x.");
+                			break;
+                		case 1:
+                			JOptionPane.showMessageDialog(appFrame, "NOM: Nombre de méthodes locales/héritées de la classe x.");
+                			break;
+                		case 2:
+                			JOptionPane.showMessageDialog(appFrame, "NOA: Nombre d’attributs locaux/hérités de la classe x.");
+                			break;
+                		case 3:
+                			JOptionPane.showMessageDialog(appFrame, "ITC: Nombre de fois où d’autres classes du diagramme apparaissent comme types des arguments des méthodes de x.");
+                			break;
+                		case 4:
+                			JOptionPane.showMessageDialog(appFrame, "ETC: Nombre de fois où x apparaît comme type des arguments dans les méthodes des autres classes du diagramme.");
+                			break;
+                		case 5:
+                			JOptionPane.showMessageDialog(appFrame, "CAC: Nombre d’associations (incluant les agrégations) locales/héritées auxquelles participe une classe x.");
+                			break;
+                		case 6:
+                			JOptionPane.showMessageDialog(appFrame, "DIT: Taille du chemin le plus long reliant une classe x à une classe racine dans le graphe d’héritage.");
+                			break;
+                		case 7:
+                			JOptionPane.showMessageDialog(appFrame, "CLD: Taille du chemin le plus long reliant une classe x à une classe feuille dans le graphe d’héritage.");
+                			break;
+                		case 8:
+                			JOptionPane.showMessageDialog(appFrame, "NOC: Nombre de sous-classes directes de x.");
+                			break;
+                		case 9:
+                			JOptionPane.showMessageDialog(appFrame, "NOD: Nombre de sous-classes directes et indirectes de x.");
+                			break;
+                	}
+                }
+            }
+        });
+        
         //JList Attributes
         jListAttributes = new JList<String>();
         appPanel.add(jListAttributes);
@@ -285,6 +326,46 @@ public class UI {
             }
         });
         
+        JButton btnCSVExport = new JButton();
+        appPanel.add(btnCSVExport);
+        btnCSVExport.setSize(160, 25);
+        btnCSVExport.setLocation(600, 570);
+        btnCSVExport.setText("Export CSV...");
+        btnCSVExport.setVisible(true);
+        btnCSVExport.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+            	if(m != null){
+	                //Export CSV File
+	                JFileChooser exportCSVFileChooser = new JFileChooser(".");
+	                FileNameExtensionFilter exportCSVFileNameExtensionFilter = new FileNameExtensionFilter("Comma-separated values files only (.csv)", "csv");
+	
+	                //Limits the imported files to csv files only (.csv)
+	                exportCSVFileChooser.addChoosableFileFilter(exportCSVFileNameExtensionFilter);
+	                exportCSVFileChooser.setFileFilter(exportCSVFileNameExtensionFilter);
+	                exportCSVFileChooser.setAcceptAllFileFilterUsed(false);
+	                exportCSVFileChooser.setDialogTitle("Exportation d'un fichier csv");
+	
+	                if (exportCSVFileChooser.showOpenDialog(appFrame) == JFileChooser.APPROVE_OPTION) {
+	                    try(FileWriter fw = new FileWriter(exportCSVFileChooser.getSelectedFile()+".csv")) {
+	                    	String csvText = "";
+	                    	for(int i=0; i<jListClasses.getModel().getSize();i++){
+	                    		String currentClass = jListClasses.getModel().getElementAt(i);
+	                    		csvText += currentClass + "," + MetricsBuilder.computeMetrics(m, currentClass).toString() + "\n";
+	                    	}
+	                        fw.write(csvText);
+	                        jTextAreaDetails.setText(csvText);
+	                    } catch (Exception ex) {
+	                    	JOptionPane.showMessageDialog(appFrame, "Error! File could not be written.");
+	                    }
+	                }
+            	}
+            	else{
+            		JOptionPane.showMessageDialog(appFrame, "Please open UML file before trying to write it's CSV.");
+            	}
+            }
+        });
+        
         JButton btnCalculateMetrics = new JButton();
         appPanel.add(btnCalculateMetrics);
         btnCalculateMetrics.setSize(160, 25);
@@ -312,8 +393,8 @@ public class UI {
     	jListMethods.setListData(new String[0]);
     	jListSubclasses.setListData(new String[0]);
     	jListAssociationsAndAggregations.setListData(new String[0]);
+    	jListMetrics.setListData(new String[0]);
     	jTextAreaDetails.setText("");
-    	jTextAreaMetrics.setText("");
     }
     
     private void fillClasses() {
@@ -366,7 +447,20 @@ public class UI {
     }
 
     private void fillMetrics(String selectedClass){
-    	jTextAreaMetrics.setText(MetricsBuilder.computeMetrics(m, selectedClass).toString());
+    	/*Classes filler*/
+        DefaultListModel<String> listModel = new DefaultListModel<String>();
+        Metrics metrics = MetricsBuilder.computeMetrics(m, selectedClass);
+        listModel.addElement("ANA: " + metrics.ana);
+        listModel.addElement("NOM: " + metrics.nom);
+        listModel.addElement("NOA: " + metrics.noa);
+        listModel.addElement("ITC: " + metrics.itc);
+        listModel.addElement("ETC: " + metrics.etc);
+        listModel.addElement("CAC: " + metrics.cac);
+        listModel.addElement("DIT: " + metrics.dit);
+        listModel.addElement("CLD: " + metrics.cld);
+        listModel.addElement("NOC: " + metrics.noc);
+        listModel.addElement("NOD: " + metrics.nod);
+        this.jListMetrics.setModel(listModel);
     }
     
     private void fillGeneralization(String selectedClass) {
