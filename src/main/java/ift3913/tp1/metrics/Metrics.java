@@ -30,15 +30,15 @@ public class Metrics {
     }
     
     public String toString(){
-    	return "ANA: " + ana 
-    	+ "\nNOM: " + nom 
-    	+ "\nNOA: " + noa 
-    	+ "\nITC: " + itc
-        + "\nETC: " + etc
-        + "\nCAC: " + cac
-        + "\nDIT: " + dit
-        + "\nCLD: " + cld
-        + "\nNOC: " + noc
-        + "\nNOD: " + nod;
+    	return ana 
+    	+ "," + nom 
+    	+ "," + noa 
+    	+ "," + itc
+        + "," + etc
+        + "," + cac
+        + "," + dit
+        + "," + cld
+        + "," + noc
+        + "," + nod;
     }
 }
