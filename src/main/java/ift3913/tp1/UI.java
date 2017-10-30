@@ -39,8 +39,6 @@ public class UI {
     private JList<String> jListAssociationsAndAggregations;
     private JList<String> jListMetrics;
     private JTextArea jTextAreaDetails;
-    private JButton btnCalculateMetrics;
-    private JButton btnCSVExport;
     private Model m;
     private ArrayList<Klass> klassArray = new ArrayList<Klass>();
 
@@ -320,7 +318,7 @@ public class UI {
                         m = ModelParser.parseModel(data);
                         fillClasses();
                     } catch (Exception ex) {
-                    	JOptionPane.showMessageDialog(appFrame, "Error! The input file might be corrupted.");
+                    	JOptionPane.showMessageDialog(appFrame, "Error! The input file might be empty, non-conform or corrupted.");
                     }
                 }
             }
@@ -354,7 +352,6 @@ public class UI {
 	                    		csvText += currentClass + "," + MetricsBuilder.computeMetrics(m, currentClass).toString() + "\n";
 	                    	}
 	                        fw.write(csvText);
-	                        jTextAreaDetails.setText(csvText);
 	                    } catch (Exception ex) {
 	                    	JOptionPane.showMessageDialog(appFrame, "Error! File could not be written.");
 	                    }
