@@ -2,6 +2,12 @@ package ift3913.tp1;
 
 import ift3913.tp1.metrics.Metrics;
 import ift3913.tp1.metrics.MetricsBuilder;
+import ift3913.tp1.parser.ModelParser;
+import ift3913.tp1.parser.ast.Aggregation;
+import ift3913.tp1.parser.ast.Association;
+import ift3913.tp1.parser.ast.Generalization;
+import ift3913.tp1.parser.ast.Klass;
+import ift3913.tp1.parser.ast.Model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,7 +16,6 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -24,14 +29,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import ift3913.tp1.parser.ModelParser;
-import ift3913.tp1.parser.ast.Aggregation;
-import ift3913.tp1.parser.ast.Association;
-import ift3913.tp1.parser.ast.Generalization;
-import ift3913.tp1.parser.ast.Klass;
-import ift3913.tp1.parser.ast.Model;
-
 public class UI {
+
     private JList<String> jListClasses;
     private JList<String> jListAttributes;
     private JList<String> jListMethods;
@@ -121,7 +120,7 @@ public class UI {
         jlabelMetrics.setLocation(600, 100);
         jlabelMetrics.setText("Metrics");
         jlabelMetrics.setVisible(true);
-        
+
         /*JTextArea Initialization*/
         jTextAreaDetails = new JTextArea();
         appPanel.add(jTextAreaDetails);
@@ -137,7 +136,7 @@ public class UI {
         jTextAreaDetailsScrollPane.setLocation(215, 430);
         appPanel.add(jTextAreaDetailsScrollPane);
         jTextAreaDetailsScrollPane.setVisible(true);
-        
+
         /*JLists Initialization*/
         //JList Classes
         jListClasses = new JList<String>();
@@ -159,7 +158,7 @@ public class UI {
                 }
             }
         });
-        
+
         //jListClasses ScrollPane
         JScrollPane jListClassesScrollPane = new JScrollPane(jListClasses, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jListClassesScrollPane.setSize(160, 400);
@@ -179,47 +178,47 @@ public class UI {
         jTextAreaMetricsScrollPane.setLocation(600, 140);
         appPanel.add(jTextAreaMetricsScrollPane);
         jTextAreaMetricsScrollPane.setVisible(true);
-        
+
         jListMetrics.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-            	//Show the definition of the chosen metric
+                //Show the definition of the chosen metric
                 if (m != null) {
-                	switch(jListMetrics.getSelectedIndex()){
-                		case 0:
-                			JOptionPane.showMessageDialog(appFrame, "ANA: Nombre moyen d’arguments des méthodes locales pour la classe x.");
-                			break;
-                		case 1:
-                			JOptionPane.showMessageDialog(appFrame, "NOM: Nombre de méthodes locales/héritées de la classe x.");
-                			break;
-                		case 2:
-                			JOptionPane.showMessageDialog(appFrame, "NOA: Nombre d’attributs locaux/hérités de la classe x.");
-                			break;
-                		case 3:
-                			JOptionPane.showMessageDialog(appFrame, "ITC: Nombre de fois où d’autres classes du diagramme apparaissent comme types des arguments des méthodes de x.");
-                			break;
-                		case 4:
-                			JOptionPane.showMessageDialog(appFrame, "ETC: Nombre de fois où x apparaît comme type des arguments dans les méthodes des autres classes du diagramme.");
-                			break;
-                		case 5:
-                			JOptionPane.showMessageDialog(appFrame, "CAC: Nombre d’associations (incluant les agrégations) locales/héritées auxquelles participe une classe x.");
-                			break;
-                		case 6:
-                			JOptionPane.showMessageDialog(appFrame, "DIT: Taille du chemin le plus long reliant une classe x à une classe racine dans le graphe d’héritage.");
-                			break;
-                		case 7:
-                			JOptionPane.showMessageDialog(appFrame, "CLD: Taille du chemin le plus long reliant une classe x à une classe feuille dans le graphe d’héritage.");
-                			break;
-                		case 8:
-                			JOptionPane.showMessageDialog(appFrame, "NOC: Nombre de sous-classes directes de x.");
-                			break;
-                		case 9:
-                			JOptionPane.showMessageDialog(appFrame, "NOD: Nombre de sous-classes directes et indirectes de x.");
-                			break;
-                	}
+                    switch (jListMetrics.getSelectedIndex()) {
+                        case 0:
+                            JOptionPane.showMessageDialog(appFrame, "ANA: Nombre moyen d'arguments des mÃ©thodes locales pour la classe x.");
+                            break;
+                        case 1:
+                            JOptionPane.showMessageDialog(appFrame, "NOM: Nombre de mÃ©thodes locales/hÃ©ritÃ©es de la classe x.");
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(appFrame, "NOA: Nombre d'attributs locaux/hÃ©ritÃ©s de la classe x.");
+                            break;
+                        case 3:
+                            JOptionPane.showMessageDialog(appFrame, "ITC: Nombre de fois oÃ¹ d'autres classes du diagramme apparaissent comme types des arguments des mÃ©thodes de x.");
+                            break;
+                        case 4:
+                            JOptionPane.showMessageDialog(appFrame, "ETC: Nombre de fois oÃ¹ x apparaÃ®t comme type des arguments dans les mÃ©thodes des autres classes du diagramme.");
+                            break;
+                        case 5:
+                            JOptionPane.showMessageDialog(appFrame, "CAC: Nombre d'associations (incluant les agrÃ©gations) locales/hÃ©ritÃ©es auxquelles participe une classe x.");
+                            break;
+                        case 6:
+                            JOptionPane.showMessageDialog(appFrame, "DIT: Taille du chemin le plus long reliant une classe x Ã  une classe racine dans le graphe d'hÃ©ritage.");
+                            break;
+                        case 7:
+                            JOptionPane.showMessageDialog(appFrame, "CLD: Taille du chemin le plus long reliant une classe x Ã  une classe feuille dans le graphe d'hÃ©ritage.");
+                            break;
+                        case 8:
+                            JOptionPane.showMessageDialog(appFrame, "NOC: Nombre de sous-classes directes de x.");
+                            break;
+                        case 9:
+                            JOptionPane.showMessageDialog(appFrame, "NOD: Nombre de sous-classes directes et indirectes de x.");
+                            break;
+                    }
                 }
             }
         });
-        
+
         //JList Attributes
         jListAttributes = new JList<String>();
         appPanel.add(jListAttributes);
@@ -313,17 +312,17 @@ public class UI {
                     m = null;
                     String data = "";
                     try {
-                    	erasePrevious();
+                        erasePrevious();
                         data = new String(Files.readAllBytes(Paths.get(path)), "UTF-8");
                         m = ModelParser.parseModel(data);
                         fillClasses();
                     } catch (Exception ex) {
-                    	JOptionPane.showMessageDialog(appFrame, "Error! The input file might be empty, non-conform or corrupted.");
+                        JOptionPane.showMessageDialog(appFrame, "Error! The input file might be empty, non-conform or corrupted.");
                     }
                 }
             }
         });
-        
+
         JButton btnCSVExport = new JButton();
         appPanel.add(btnCSVExport);
         btnCSVExport.setSize(160, 25);
@@ -333,36 +332,35 @@ public class UI {
         btnCSVExport.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-            	if(m != null){
-	                //Export CSV File
-	                JFileChooser exportCSVFileChooser = new JFileChooser(".");
-	                FileNameExtensionFilter exportCSVFileNameExtensionFilter = new FileNameExtensionFilter("Comma-separated values files only (.csv)", "csv");
-	
-	                //Limits the imported files to csv files only (.csv)
-	                exportCSVFileChooser.addChoosableFileFilter(exportCSVFileNameExtensionFilter);
-	                exportCSVFileChooser.setFileFilter(exportCSVFileNameExtensionFilter);
-	                exportCSVFileChooser.setAcceptAllFileFilterUsed(false);
-	                exportCSVFileChooser.setDialogTitle("Exportation d'un fichier csv");
-	
-	                if (exportCSVFileChooser.showOpenDialog(appFrame) == JFileChooser.APPROVE_OPTION) {
-	                    try(FileWriter fw = new FileWriter(exportCSVFileChooser.getSelectedFile()+".csv")) {
-	                    	String csvText = "";
-	                    	for(int i=0; i<jListClasses.getModel().getSize();i++){
-	                    		String currentClass = jListClasses.getModel().getElementAt(i);
-	                    		csvText += currentClass + "," + MetricsBuilder.computeMetrics(m, currentClass).toString() + "\n";
-	                    	}
-	                        fw.write(csvText);
-	                    } catch (Exception ex) {
-	                    	JOptionPane.showMessageDialog(appFrame, "Error! File could not be written.");
-	                    }
-	                }
-            	}
-            	else{
-            		JOptionPane.showMessageDialog(appFrame, "Please open UML file before trying to write it's CSV.");
-            	}
+                if (m != null) {
+                    //Export CSV File
+                    JFileChooser exportCSVFileChooser = new JFileChooser(".");
+                    FileNameExtensionFilter exportCSVFileNameExtensionFilter = new FileNameExtensionFilter("Comma-separated values files only (.csv)", "csv");
+
+                    //Limits the imported files to csv files only (.csv)
+                    exportCSVFileChooser.addChoosableFileFilter(exportCSVFileNameExtensionFilter);
+                    exportCSVFileChooser.setFileFilter(exportCSVFileNameExtensionFilter);
+                    exportCSVFileChooser.setAcceptAllFileFilterUsed(false);
+                    exportCSVFileChooser.setDialogTitle("Exportation d'un fichier csv");
+
+                    if (exportCSVFileChooser.showOpenDialog(appFrame) == JFileChooser.APPROVE_OPTION) {
+                        try (FileWriter fw = new FileWriter(exportCSVFileChooser.getSelectedFile() + ".csv")) {
+                            String csvText = "";
+                            for (int i = 0; i < jListClasses.getModel().getSize(); i++) {
+                                String currentClass = jListClasses.getModel().getElementAt(i);
+                                csvText += currentClass + "," + MetricsBuilder.computeMetrics(m, currentClass).toString() + "\n";
+                            }
+                            fw.write(csvText);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(appFrame, "Error! File could not be written.");
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(appFrame, "Please open UML file before trying to write it's CSV.");
+                }
             }
         });
-        
+
         JButton btnCalculateMetrics = new JButton();
         appPanel.add(btnCalculateMetrics);
         btnCalculateMetrics.setSize(160, 25);
@@ -370,30 +368,29 @@ public class UI {
         btnCalculateMetrics.setText("Calculate Metrics...");
         btnCalculateMetrics.setVisible(true);
         btnCalculateMetrics.addActionListener(new ActionListener() {
-        	
+
             public void actionPerformed(ActionEvent e) {
-            	if(jListClasses.isSelectionEmpty()){
-            		JOptionPane.showMessageDialog(appFrame, "Error! Please open a UML file and select a class.");
-            	}
-            	else{
-            		fillMetrics(jListClasses.getSelectedValue());
-            	}
+                if (jListClasses.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(appFrame, "Error! Please open a UML file and select a class.");
+                } else {
+                    fillMetrics(jListClasses.getSelectedValue());
+                }
             }
         });
     }
 
-    private void erasePrevious(){
-    	//Empty the klassArray and jTextAreaDetails
-    	klassArray = new ArrayList<Klass>();
-    	jListClasses.setListData(new String[0]);
-    	jListAttributes.setListData(new String[0]);
-    	jListMethods.setListData(new String[0]);
-    	jListSubclasses.setListData(new String[0]);
-    	jListAssociationsAndAggregations.setListData(new String[0]);
-    	jListMetrics.setListData(new String[0]);
-    	jTextAreaDetails.setText("");
+    private void erasePrevious() {
+        //Empty the klassArray and jTextAreaDetails
+        klassArray = new ArrayList<Klass>();
+        jListClasses.setListData(new String[0]);
+        jListAttributes.setListData(new String[0]);
+        jListMethods.setListData(new String[0]);
+        jListSubclasses.setListData(new String[0]);
+        jListAssociationsAndAggregations.setListData(new String[0]);
+        jListMetrics.setListData(new String[0]);
+        jTextAreaDetails.setText("");
     }
-    
+
     private void fillClasses() {
         /*Classes filler*/
         DefaultListModel<String> listModel = new DefaultListModel<String>();
@@ -443,8 +440,8 @@ public class UI {
         this.jListMethods.setModel(listModel);
     }
 
-    private void fillMetrics(String selectedClass){
-    	/*Classes filler*/
+    private void fillMetrics(String selectedClass) {
+        /*Classes filler*/
         DefaultListModel<String> listModel = new DefaultListModel<String>();
         Metrics metrics = MetricsBuilder.computeMetrics(m, selectedClass);
         listModel.addElement("ANA: " + metrics.ana);
@@ -459,7 +456,7 @@ public class UI {
         listModel.addElement("NOD: " + metrics.nod);
         this.jListMetrics.setModel(listModel);
     }
-    
+
     private void fillGeneralization(String selectedClass) {
         //Generalization filler
         DefaultListModel<String> listModel = new DefaultListModel<String>();
