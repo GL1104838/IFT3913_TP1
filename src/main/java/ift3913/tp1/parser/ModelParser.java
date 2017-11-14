@@ -9,9 +9,16 @@ public class ModelParser {
 
     public static Model parseModel(String src) {
         CharStream cs = CharStreams.fromString(src);
+
         UMLLexer lexer = new UMLLexer(cs);
+        lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
+        lexer.addErrorListener(SyntaxErrorListener.INSTANCE);
+
         TokenStream tokens = new CommonTokenStream(lexer);
+
         UMLParser parser = new UMLParser(tokens);
+        parser.removeErrorListener(ConsoleErrorListener.INSTANCE);
+        parser.addErrorListener(SyntaxErrorListener.INSTANCE);
 
         ModelVisitor visitor = new ModelVisitor();
         return visitor.visit(parser.model());
@@ -28,10 +35,6 @@ public class ModelParser {
 
         @Override
         public Model visitModel(UMLParser.ModelContext ctx) {
-            if (ctx.ID() == null || ctx.declaration() == null) {
-                return null;
-            }
-
             DeclarationVisitor visitor = new DeclarationVisitor();
 
             Model m = new Model();

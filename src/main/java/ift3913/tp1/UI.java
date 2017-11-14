@@ -3,6 +3,7 @@ package ift3913.tp1;
 import ift3913.tp1.metrics.Metrics;
 import ift3913.tp1.metrics.MetricsBuilder;
 import ift3913.tp1.parser.ModelParser;
+import ift3913.tp1.parser.SyntaxError;
 import ift3913.tp1.parser.ast.Aggregation;
 import ift3913.tp1.parser.ast.Association;
 import ift3913.tp1.parser.ast.Generalization;
@@ -316,6 +317,8 @@ public class UI {
                         data = new String(Files.readAllBytes(Paths.get(path)), "UTF-8");
                         m = ModelParser.parseModel(data);
                         fillClasses();
+                    } catch (SyntaxError s) {
+                        JOptionPane.showMessageDialog(appFrame, String.format("Syntax error at %d:%d : %s", s.line, s.col, s.getMessage()));
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(appFrame, "Error! The input file might be empty, non-conform or corrupted.");
                     }

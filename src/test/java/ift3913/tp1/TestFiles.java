@@ -1,6 +1,7 @@
 package ift3913.tp1;
 
 import ift3913.tp1.parser.ModelParser;
+import ift3913.tp1.parser.SyntaxError;
 import ift3913.tp1.parser.ast.Klass;
 import ift3913.tp1.parser.ast.Model;
 import java.io.IOException;
@@ -30,10 +31,14 @@ public class TestFiles {
         assertEquals(9, model.declarations.size());
     }
 
-    @Test
+    @Test(expected = SyntaxError.class)
     public void testLigueVide() throws IOException {
-        Model model = readFile("Ligue_vide.ucd");
-        assertEquals(null, model);
+        readFile("Ligue_vide.ucd");
+    }
+
+    @Test(expected = SyntaxError.class)
+    public void testInvalidFile() throws IOException {
+        readFile("Ligue_invalid.ucd");
     }
 
     @Test
