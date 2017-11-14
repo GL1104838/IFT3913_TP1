@@ -4,7 +4,15 @@ public class DataItem {
 
     public String ident;
     public String type;
-    
+
+    public DataItem() {
+    }
+
+    public DataItem(String ident, String type) {
+        this.ident = ident;
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof DataItem) {

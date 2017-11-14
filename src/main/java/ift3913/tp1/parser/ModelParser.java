@@ -1,11 +1,9 @@
 package ift3913.tp1.parser;
 
 import ift3913.tp1.parser.ast.*;
-import org.antlr.v4.runtime.*;
-
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
+import org.antlr.v4.runtime.*;
 
 public class ModelParser {
 
@@ -26,11 +24,14 @@ public class ModelParser {
                 .collect(toList());
     }
 
-
     private static class ModelVisitor extends UMLBaseVisitor<Model> {
 
         @Override
         public Model visitModel(UMLParser.ModelContext ctx) {
+            if (ctx.ID() == null || ctx.declaration() == null) {
+                return null;
+            }
+
             DeclarationVisitor visitor = new DeclarationVisitor();
 
             Model m = new Model();
@@ -63,6 +64,7 @@ public class ModelParser {
     }
 
     private static class KlassVisitor extends UMLBaseVisitor<Klass> {
+
         @Override
         public Klass visitKlass(UMLParser.KlassContext ctx) {
             OperationVisitor visitor = new OperationVisitor();
@@ -78,6 +80,7 @@ public class ModelParser {
     }
 
     private static class AssociationVisitor extends UMLBaseVisitor<Association> {
+
         @Override
         public Association visitAssociation(UMLParser.AssociationContext ctx) {
             RoleVisitor roleVisitor = new RoleVisitor();
@@ -90,6 +93,7 @@ public class ModelParser {
     }
 
     private static class GeneralizationVisitor extends UMLBaseVisitor<Generalization> {
+
         @Override
         public Generalization visitGeneralization(UMLParser.GeneralizationContext ctx) {
             Generalization g = new Generalization();
@@ -100,6 +104,7 @@ public class ModelParser {
     }
 
     private static class AggregationVisitor extends UMLBaseVisitor<Aggregation> {
+
         @Override
         public Aggregation visitAggregation(UMLParser.AggregationContext ctx) {
             RoleVisitor roleVisitor = new RoleVisitor();
@@ -112,6 +117,7 @@ public class ModelParser {
     }
 
     private static class DataItemVisitor extends UMLBaseVisitor<DataItem> {
+
         @Override
         public DataItem visitDataItem(UMLParser.DataItemContext ctx) {
             DataItem item = new DataItem();
@@ -122,6 +128,7 @@ public class ModelParser {
     }
 
     private static class OperationVisitor extends UMLBaseVisitor<Operation> {
+
         @Override
         public Operation visitOperation(UMLParser.OperationContext ctx) {
             Operation op = new Operation();
@@ -133,6 +140,7 @@ public class ModelParser {
     }
 
     private static class RoleVisitor extends UMLBaseVisitor<Role> {
+
         @Override
         public Role visitRole(UMLParser.RoleContext ctx) {
             Role r = new Role();
@@ -143,6 +151,7 @@ public class ModelParser {
     }
 
     private static class MultiplicityVisitor extends UMLBaseVisitor<Multiplicity> {
+
         @Override
         public Multiplicity visitMultiplicity(UMLParser.MultiplicityContext ctx) {
             switch (ctx.getText()) {

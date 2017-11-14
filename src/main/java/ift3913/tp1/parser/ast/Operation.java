@@ -1,5 +1,6 @@
 package ift3913.tp1.parser.ast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Operation {
@@ -7,7 +8,17 @@ public class Operation {
     public String name;
     public List<DataItem> args;
     public String type;
-    
+
+    public Operation() {
+
+    }
+
+    public Operation(String name, String type) {
+        this.name = name;
+        this.type = type;
+        args = new ArrayList<>();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Operation) {
